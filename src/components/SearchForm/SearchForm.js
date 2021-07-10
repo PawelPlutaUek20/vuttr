@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchForm = ({ search, setSearch }) => {
+const SearchForm = ({ search, setSearch, update }) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -68,7 +68,7 @@ const SearchForm = ({ search, setSearch }) => {
       >
         Add
       </Button>
-      <DialogAdd open={open} setOpen={setOpen} />
+      <DialogAdd update={update} open={open} setOpen={setOpen} />
     </Grid>
   );
 };

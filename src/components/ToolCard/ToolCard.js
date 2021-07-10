@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ToolCard = ({ tool, search }) => {
+const ToolCard = ({ tool, search, update }) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -45,11 +45,15 @@ const ToolCard = ({ tool, search }) => {
       >
         <ClearIcon />
       </IconButton>
-      <DialogRemove open={open} setOpen={setOpen} tool={tool.title} />
+      <DialogRemove open={open} setOpen={setOpen} tool={tool} update={update} />
       <Grid container direction="column" className={classes.container}>
         <Grid item xs={12}>
           <Typography variant="h6">
-            <Link underline="always" href="#">
+            <Link
+              target={tool.link ? "_blank" : "_self"}
+              underline="always"
+              href={tool.link || "#"}
+            >
               {tool.title}
             </Link>
           </Typography>
@@ -60,8 +64,8 @@ const ToolCard = ({ tool, search }) => {
           </Typography>
         </Grid>
         <Grid item container xs={12}>
-          {tool.tags.map((tag) => (
-            <Grid item key={tag} className={classes.tag}>
+          {tool.tags.map((tag, tagIdx) => (
+            <Grid item key={tagIdx} className={classes.tag}>
               <Typography component="div">
                 <Box
                   className={search.searchQuery === tag ? classes.inTag : ""}

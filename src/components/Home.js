@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "./Header/Header";
 import SearchForm from "./SearchForm/SearchForm";
 import ToolCard from "./ToolCard/ToolCard";
@@ -22,15 +22,22 @@ const Home = () => {
     searchQuery: "",
     searchInTagsOnly: false,
   });
+  const fetchTools = useRef(() => {});
 
-  useEffect(() => {
+  fetchTools.current = () => {
     API.get(
       search.searchInTagsOnly
         ? `/tools?tags_like=${search.searchQuery}`
         : `/tools?q=${search.searchQuery}`
     )
-      .then((response) => setTools(response.data))
+      .then((response) => {
+        setTools(response.data);
+      })
       .catch((e) => console.log(e));
+  };
+
+  useEffect(() => {
+    fetchTools.current();
   }, [search]);
 
   return (
@@ -41,14 +48,22 @@ const Home = () => {
         </Grid>
 
         <Grid item xs={12} className={classes.content}>
-          <SearchForm search={search} setSearch={setSearch} />
+          <SearchForm
+            search={search}
+            setSearch={setSearch}
+            update={fetchTools.current}
+          />
         </Grid>
 
         <Grid item xs={12}>
           <Grid container spacing={2} direction="column">
             {tools.map((tool) => (
               <Grid item key={tool.id}>
-                <ToolCard tool={tool} search={search} />
+                <ToolCard
+                  tool={tool}
+                  search={search}
+                  update={fetchTools.current}
+                />
               </Grid>
             ))}
           </Grid>

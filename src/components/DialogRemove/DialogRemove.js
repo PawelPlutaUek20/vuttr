@@ -6,6 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
+import API from "../../api/api";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DialogRemove = ({ open, setOpen, tool }) => {
+const DialogRemove = ({ open, setOpen, tool, update }) => {
   const classes = useStyles();
 
   return (
@@ -45,7 +46,7 @@ const DialogRemove = ({ open, setOpen, tool }) => {
       </DialogTitle>
       <DialogContent>
         <Typography className={classes.dialogContentText} component="p">
-          Are you sure you want to remove <b>{tool}</b>?
+          Are you sure you want to remove <b>{tool.title}</b>?
         </Typography>
       </DialogContent>
       <DialogActions>
@@ -60,7 +61,14 @@ const DialogRemove = ({ open, setOpen, tool }) => {
         <Button
           className={classes.button}
           variant="contained"
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            API.delete(`/tools/${tool.id}`)
+              .then(() => {
+                update();
+                setOpen(false);
+              })
+              .catch((e) => console.log(e));
+          }}
           color="primary"
         >
           Yes, remove
