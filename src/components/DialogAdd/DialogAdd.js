@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initialState = {
+const initialFormState = {
   title: "",
   link: "",
   description: "",
@@ -32,10 +32,25 @@ const initialState = {
 const DialogAdd = ({ open, setOpen, update }) => {
   const classes = useStyles();
 
-  const [formState, setFormState] = useState(initialState);
+  const [formState, setFormState] = useState(initialFormState);
 
   const handleInput = (e) =>
     setFormState({ ...formState, [e.target.name]: e.target.value });
+
+  const addTool = () => {
+    API.post("/tools", {
+      title: formState.title,
+      link: formState.link,
+      description: formState.description,
+      tags: formState.tags ? formState.tags.split(" ") : [],
+    })
+      .then(() => {
+        update();
+        setOpen(false);
+        setFormState({ ...initialFormState });
+      })
+      .catch((e) => console.log(e));
+  };
 
   return (
     <Dialog
@@ -51,67 +66,52 @@ const DialogAdd = ({ open, setOpen, update }) => {
           <Typography variant="h6">Add new tool</Typography>
         </Grid>
       </DialogTitle>
-      <form>
-        <DialogContent>
-          <TextField
-            name="title"
-            onChange={handleInput}
-            value={formState.title}
-            className={classes.field}
-            label="Tool Name"
-            fullWidth
-          />
-          <TextField
-            name="link"
-            onChange={handleInput}
-            value={formState.link}
-            className={classes.field}
-            label="Tool Link"
-            fullWidth
-          />
-          <TextField
-            name="description"
-            onChange={handleInput}
-            value={formState.description}
-            className={classes.field}
-            label="Tool description"
-            fullWidth
-            multiline
-            rows={4}
-          />
-          <TextField
-            name="tags"
-            onChange={handleInput}
-            value={formState.tags}
-            className={classes.field}
-            label="Tags"
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            className={classes.button}
-            variant="contained"
-            onClick={() => {
-              API.post("/tools", {
-                title: formState.title,
-                link: formState.link,
-                description: formState.description,
-                tags: formState.tags ? formState.tags.split(" ") : [],
-              })
-                .then(() => {
-                  update();
-                  setOpen(false);
-                  setFormState({ ...initialState });
-                })
-                .catch((e) => console.log(e));
-            }}
-            color="primary"
-          >
-            Add tool
-          </Button>
-        </DialogActions>
-      </form>
+      <DialogContent>
+        <TextField
+          name="title"
+          onChange={handleInput}
+          value={formState.title}
+          className={classes.field}
+          label="Tool Name"
+          fullWidth
+        />
+        <TextField
+          name="link"
+          onChange={handleInput}
+          value={formState.link}
+          className={classes.field}
+          label="Tool Link"
+          fullWidth
+        />
+        <TextField
+          name="description"
+          onChange={handleInput}
+          value={formState.description}
+          className={classes.field}
+          label="Tool description"
+          fullWidth
+          multiline
+          rows={4}
+        />
+        <TextField
+          name="tags"
+          onChange={handleInput}
+          value={formState.tags}
+          className={classes.field}
+          label="Tags"
+          fullWidth
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button
+          className={classes.button}
+          variant="contained"
+          onClick={addTool}
+          color="primary"
+        >
+          Add tool
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

@@ -30,6 +30,15 @@ const useStyles = makeStyles((theme) => ({
 const DialogRemove = ({ open, setOpen, tool, update }) => {
   const classes = useStyles();
 
+  const removeTool = () => {
+    API.delete(`/tools/${tool.id}`)
+      .then(() => {
+        update();
+        setOpen(false);
+      })
+      .catch((e) => console.log(e));
+  };
+
   return (
     <Dialog
       fullWidth
@@ -61,14 +70,7 @@ const DialogRemove = ({ open, setOpen, tool, update }) => {
         <Button
           className={classes.button}
           variant="contained"
-          onClick={() => {
-            API.delete(`/tools/${tool.id}`)
-              .then(() => {
-                update();
-                setOpen(false);
-              })
-              .catch((e) => console.log(e));
-          }}
+          onClick={removeTool}
           color="primary"
         >
           Yes, remove
