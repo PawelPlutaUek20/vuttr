@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.js": "/vuttr/static/js/main.b0391000.chunk.js",
+    "main.js.map": "/vuttr/static/js/main.b0391000.chunk.js.map",
+    "runtime-main.js": "/vuttr/static/js/runtime-main.ffe20693.js",
+    "runtime-main.js.map": "/vuttr/static/js/runtime-main.ffe20693.js.map",
+    "static/js/2.4432cebc.chunk.js": "/vuttr/static/js/2.4432cebc.chunk.js",
+    "static/js/2.4432cebc.chunk.js.map": "/vuttr/static/js/2.4432cebc.chunk.js.map",
+    "index.html": "/vuttr/index.html",
+    "static/js/2.4432cebc.chunk.js.LICENSE.txt": "/vuttr/static/js/2.4432cebc.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ffe20693.js",
+    "static/js/2.4432cebc.chunk.js",
+    "static/js/main.b0391000.chunk.js"
+  ]
+}
